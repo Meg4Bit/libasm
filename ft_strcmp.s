@@ -13,12 +13,7 @@ ft_strcmp:
 	inc		rdi
 	jmp		loop1
 	exit:
-	mov		[s1], al
-	mov		[s2], bl
-	mov		rax, [s1]
-	sub		rax, [s2]
+	and		rax, 255
+	and		rbx, 255
+	sub		rax, rbx
 	ret
-
-section	.bss
-s1 resb 8
-s2 resb 8
