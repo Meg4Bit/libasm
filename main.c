@@ -2,7 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
-#include <error.h>
+#include <fcntl.h>
 
 int				error_msg(char *msg)
 {
@@ -11,31 +11,51 @@ int				error_msg(char *msg)
 	return (0);
 }
 
-
-
 int				main()
 {
-	extern int ft_strlen();
-	extern char *ft_strcpy();
-	extern int ft_strcmp();
-	extern char *ft_strdup();
-	extern size_t ft_read();
+	extern size_t ft_strlen(const char *s);
+	extern char *ft_strcpy(char *dest, const char *src);
+	extern int ft_strcmp(const char *s1, const char *s2);
+	extern char *ft_strdup(const char *s);
+	extern ssize_t ft_read(int fd, const void *buf, size_t count);
+	extern ssize_t ft_write(int fd, const void *buf, size_t count);
 
-char	buf[4];
+	char	buf[26];
+	int		tmp[2];
+	char	*str;
 
-	/*for (int i = 0; i < 4; i++)
-		h[i] = 'o';
-	h[2] = 'e';*/
-	//printf("%d", ft_strlen("e1eqwr"));
-	//printf("%s\n", ft_strcpy(h, &h[2]));
-	//printf("%s", strcpy(h, &h[1]));
-	//printf("%d", ft_strcmp("e1eqwr", "e1f"));
-	//printf("%d", strcmp("e1eqwr", "e1f"));
-	char	*tmp = ft_strdup("e1eqwr");
-	//printf("%s", tmp);
-	printf("%ld", ft_read(0, buf, 3));
-	//printf("%ld", read(3, h, 3));
+	if (pipe(tmp) < 0)
+		return (error_msg("Open error"));
+	printf("%ld\n", ft_write(tmp[1], "Si vis pacem, para bellum", 25));
 	error_msg("hh");
-	printf("%s", buf);
+	printf("%ld\n", ft_read(tmp[0], buf, 25));
+	buf[25] = 0;
+	error_msg("hh");
+	printf("%s\n", buf);
+	printf("%ld\n", ft_strlen(buf));
+	printf("%s\n", ft_strcpy(buf, "Hello"));
+	printf("%d\n", ft_strcmp(buf, "Hello"));
+	str = ft_strdup(buf);
+	printf("%s\n", str);
+	printf("%s\n", buf);
+	close(tmp[1]);
+	close(tmp[0]);
+	printf("|Original|\n");
+	if (pipe(tmp) < 0)
+		return (error_msg("Open error"));
+	printf("%ld\n", write(tmp[1], "Si vis pacem, para bellum", 25));
+	error_msg("hh");
+	printf("%ld\n", read(tmp[0], buf, 25));
+	buf[25] = 0;
+	error_msg("hh");
+	printf("%s\n", buf);
+	printf("%ld\n", strlen(buf));
+	printf("%s\n", strcpy(buf, "Hello"));
+	printf("%d\n", strcmp(buf, "Hello"));
+	str = strdup(buf);
+	printf("%s\n", str);
+	printf("%s\n", buf);
+	close(tmp[1]);
+	close(tmp[0]);
 	return (1);
 }
