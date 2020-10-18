@@ -1,16 +1,21 @@
-NAME = libasm
+NAME = libasm.a
 CC = nasm
 SRC =	ft_strlen.s\
 		ft_strcpy.s\
 		ft_strcmp.s\
-		ft_strdup.s
+		ft_strdup.s\
+		ft_read.s\
+		ft_write.s
 OBJ = $(SRC:.s=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) main.c
-	gcc -no-pie main.c $(OBJ) -o $(NAME)
-	#ld -m elf_i386 -s -o $(NAME) $(OBJ)
+$(NAME): $(OBJ)
+	@ar rvc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+
+main: main.c
+	gcc -no-pie main.c -L. -lasm -o main
 
 %.o: %.s
 	$(CC) -f elf64 $< -o $@
@@ -22,7 +27,7 @@ clean:
 	/bin/rm -f *.o
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	/bin/rm -f $(NAME) main
 
 re: fclean all
 

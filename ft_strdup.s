@@ -1,9 +1,10 @@
+extern	ft_strlen
+extern	malloc
+
 section	.text
 	global ft_strdup
 
 ft_strdup:
-	extern	ft_strlen
-	extern	malloc
 	push	rdi
 	call	ft_strlen
 	mov		rdi, rax

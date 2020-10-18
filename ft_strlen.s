@@ -2,6 +2,7 @@ section	.text
 	global ft_strlen
 
 ft_strlen:
+	mov		rax, 0
 	loop1:
 	mov		bl, [rdi]
 	cmp		bl, 00
